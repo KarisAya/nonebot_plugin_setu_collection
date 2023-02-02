@@ -3,11 +3,15 @@
 </p>
 <div align="center">
 
-# nonebot_plugin_anosu
-
-接入[image.anosu.top](https://image.anosu.top/)拿图的nonebot2壁纸插件
+# nonebot_plugin_setu_collection
 
 </div>
+
+[Jitsu](https://image.anosu.top/) 简单好用的色图api
+
+[MirlKoi API](https://iw233.cn/) 可以避免bot被封的超安全色图api
+
+[Lolicon API](https://api.lolicon.app/) 使用这个的时候请注意身体
 
 ## 安装&使用
 
@@ -15,11 +19,17 @@
 
 ## 介绍
 
-__指令（仅私聊）__：`来10张r18碧蓝航线色图` `来张色图`
+__指令__：`来N张xx色图` `来N张xx` `来N张r18xx色图`
+
+仅私聊允许r18色图
+
+单次最多发送10张色图
+
+群聊支持单个tag
+
+私聊支持3个tag,用空格隔开。
     
 ## 其他
-
-[image.anosu.top](https://image.anosu.top/)
 
 如有建议，bug反馈，以及讨论新玩法，新机制（或者单纯没有明白怎么用）可以来加群哦~
 
