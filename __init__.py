@@ -23,7 +23,9 @@ except ModuleNotFoundError:
 
 from .utils import MirlKoi,Anosu,Lolicon,is_MirlKoi_tag
 
-Bot_NICKNAME: str = list(nonebot.get_driver().config.nickname)[0]
+Bot_NICKNAME = list(nonebot.get_driver().config.nickname)
+
+Bot_NICKNAME = Bot_NICKNAME[0] if Bot_NICKNAME else "色图bot"
 
 hello = on_command("色图", aliases = {"涩图"}, rule = to_me(), priority = 50, block = True)
 
