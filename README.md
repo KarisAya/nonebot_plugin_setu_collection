@@ -9,7 +9,7 @@
 
 [Jitsu](https://image.anosu.top/) 简单好用的色图api
 
-[MirlKoi API](https://iw233.cn/) 可以避免bot被封的超安全色图api
+[MirlKoi API](https://iw233.cn/) 可以避免bot被封的超安全（保证好看但是不怎么涩）色图api
 
 [Lolicon API](https://api.lolicon.app/) 使用这个的时候请注意身体
 
