@@ -16,10 +16,7 @@ import nonebot
 import requests
 import unicodedata
 
-try:
-    import ujson as json
-except ModuleNotFoundError:
-    import json
+from .utils import customer_api,save
 
 from .utils import MirlKoi,Anosu,Lolicon,is_MirlKoi_tag
 
@@ -83,13 +80,32 @@ async def _(bot: Bot, event: MessageEvent):
                     msg,image_list = Anosu(N,Tag,R18)
                     api = "Jitsu"
     else:
-        msg,image_list = Lolicon(N,Tag,R18)
-        api = "Lolicon API"
+        api = customer_api.get(str(event.user_id),None)
+        if api == "Lolicon API":
+            msg,image_list = Lolicon(N,Tag,R18)
+        else:
+            if R18:
+                msg,image_list = Anosu(N,Tag,R18)
+                api = "Jitsu"
+            else:
+                if not Tag:
+                    msg,image_list = MirlKoi(N,Tag,R18)
+                    api = "MirlKoi API"
+                else:
+                    tag = is_MirlKoi_tag(Tag)
+                    if tag:
+                        msg,image_list = MirlKoi(N,tag,R18)
+                        api = "MirlKoi API"
+                    else:
+                        msg,image_list = Anosu(N,Tag,R18)
+                        api = "Jitsu"
 
     msg = msg.replace("Bot_NICKNAME",Bot_NICKNAME)
 
     msg += f"\n图片取自：{api}"
-    if image_list:
+
+    N = len(image_list)
+    if N:
         if N <= 3:
             image = Message()
             for i in range(N):
@@ -115,3 +131,28 @@ async def _(bot: Bot, event: MessageEvent):
                 await bot.send_private_forward_msg(user_id = event.user_id, messages = msg_list)
     else:
         await setu.finish(msg, at_sender = True)
+
+set_api = on_command("设置api", aliases = {"切换api","指定api"}, priority = 50, block = True)
+
+@set_api.got(
+    "api",
+    prompt = (
+        "请选择:\n"
+        "1.Jitsu/MirlKoi API\n"
+        "2.Lolicon API"
+        )
+    )
+async def _(bot: Bot, event: PrivateMessageEvent, api: Message = Arg()):
+    api = str(api)
+    user_id = str(event.user_id)
+    if api == "1":
+        customer_api[user_id] = "Jitsu/MirlKoi API"
+        save()
+        await set_api.finish("api已切换为Jitsu/MirlKoi API")
+    elif api == "2":
+        customer_api[user_id] = "Lolicon API"
+        save()
+        await set_api.finish("api已切换为Lolicon API")
+    else:
+        await set_api.finish("api设置失败")
+
