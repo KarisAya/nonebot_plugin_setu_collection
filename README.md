@@ -13,13 +13,16 @@
 
 [Lolicon API](https://api.lolicon.app/) 使用这个的时候请注意身体
 
-## 安装&使用
-
-下载代码，解压后把文件夹拖到 ./src/plugins 文件夹里
+## 安装
+    pip install nonebot_plugin_setu_collection
+## 使用
+    nonebot.load_plugin('nonebot_plugin_setu_collection')
 
 ## 介绍
 
 __指令__：`来N张xx色图` `来N张xx` `来N张r18xx色图`
+
+__指令（仅私聊）__：切换api
 
 仅私聊允许r18色图
 
