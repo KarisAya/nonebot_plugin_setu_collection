@@ -69,42 +69,49 @@ async def _(bot: Bot, event: MessageEvent):
             await setu.finish("涩涩是禁止事项！！")
         else:
             if not Tag:
-                msg,image_list = MirlKoi(N,Tag,R18)
+                msg,url_list = MirlKoi(N,Tag,R18)
                 api = "MirlKoi API"
             else:
                 tag = is_MirlKoi_tag(Tag)
                 if tag:
-                    msg,image_list = MirlKoi(N,tag,R18)
+                    msg,url_list = MirlKoi(N,tag,R18)
                     api = "MirlKoi API"
                 else:
-                    msg,image_list = Anosu(N,Tag,R18)
+                    msg,url_list = Anosu(N,Tag,R18)
                     api = "Jitsu"
     else:
         api = customer_api.get(str(event.user_id),None)
         if api == "Lolicon API":
-            msg,image_list = Lolicon(N,Tag,R18)
+            msg,url_list = Lolicon(N,Tag,R18)
         else:
             if R18:
-                msg,image_list = Anosu(N,Tag,R18)
+                msg,url_list = Anosu(N,Tag,R18)
                 api = "Jitsu"
             else:
                 if not Tag:
-                    msg,image_list = MirlKoi(N,Tag,R18)
+                    msg,url_list = MirlKoi(N,Tag,R18)
                     api = "MirlKoi API"
                 else:
                     tag = is_MirlKoi_tag(Tag)
                     if tag:
-                        msg,image_list = MirlKoi(N,tag,R18)
+                        msg,url_list = MirlKoi(N,tag,R18)
                         api = "MirlKoi API"
                     else:
-                        msg,image_list = Anosu(N,Tag,R18)
+                        msg,url_list = Anosu(N,Tag,R18)
                         api = "Jitsu"
 
     msg = msg.replace("Bot_NICKNAME",Bot_NICKNAME)
 
     msg += f"\n图片取自：{api}"
 
-    N = len(image_list)
+    image_list = []
+    N = 0
+    for url in url_list:
+        resp = requests.get(url,headers={'Referer':'http://www.weibo.com/',})
+        if resp.status_code == 200:
+            image_list.append(resp.content)
+            N += 1
+
     if N:
         if N <= 3:
             image = Message()
