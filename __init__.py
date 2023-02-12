@@ -10,10 +10,12 @@ from nonebot.adapters.onebot.v11 import (
     )
 from nonebot.params import CommandArg,Arg
 
-import re
-import random
+from io import BytesIO
+
 import nonebot
-import requests
+import re
+import httpx
+import asyncio
 import unicodedata
 
 from .utils import customer_api,save
@@ -23,6 +25,8 @@ from .utils import MirlKoi,Anosu,Lolicon,is_MirlKoi_tag
 Bot_NICKNAME = list(nonebot.get_driver().config.nickname)
 
 Bot_NICKNAME = Bot_NICKNAME[0] if Bot_NICKNAME else "色图bot"
+
+client = httpx.AsyncClient()
 
 hello = on_command("色图", aliases = {"涩图"}, rule = to_me(), priority = 50, block = True)
 
@@ -37,6 +41,13 @@ async def _(bot: Bot, event: MessageEvent):
         "Lolicon API：https://api.lolicon.app/"
         )
     await hello.finish(msg)
+
+async def func(client,url):
+    resp = await client.get(url,headers={'Referer':'http://www.weibo.com/',})
+    if resp.status_code == 200:
+        return resp.content
+    else:
+        return None
 
 setu = on_regex("^(我?要|来).*[张份].+$", priority = 50, block = True)
 
@@ -102,24 +113,29 @@ async def _(bot: Bot, event: MessageEvent):
 
     msg = msg.replace("Bot_NICKNAME",Bot_NICKNAME)
 
-    msg += f"\n图片取自：{api}"
+    msg += f"\n图片取自：{api}\n"
 
-    image_list = []
-    N = 0
-    for url in url_list:
-        resp = requests.get(url,headers={'Referer':'http://www.weibo.com/',})
-        if resp.status_code == 200:
-            image_list.append(resp.content)
-            N += 1
+    if len(url_list) >3:
+        msg = msg[:-1]
+        await setu.send(msg, at_sender = True)
 
-    if N:
+    async with httpx.AsyncClient() as client:
+        task_list = []
+        for url in url_list:
+            task = asyncio.create_task(func(client,url))
+            task_list.append(task)
+        image_list = await asyncio.gather(*task_list)
+
+    image_list = [image for image in image_list if image]
+
+    if image_list:
+        N = len(image_list)
         if N <= 3:
             image = Message()
             for i in range(N):
                 image +=  MessageSegment.image(file = image_list[i])
             await setu.finish(Message(msg) + image, at_sender = True)
         else:
-            await setu.send(msg, at_sender = True)
             msg_list =[]
             for i in range(N):
                 msg_list.append(
@@ -137,6 +153,7 @@ async def _(bot: Bot, event: MessageEvent):
             else:
                 await bot.send_private_forward_msg(user_id = event.user_id, messages = msg_list)
     else:
+        msg += "获取图片失败。"
         await setu.finish(msg, at_sender = True)
 
 set_api = on_command("设置api", aliases = {"切换api","指定api"}, priority = 50, block = True)

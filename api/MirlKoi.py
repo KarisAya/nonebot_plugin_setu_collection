@@ -1,4 +1,4 @@
-import requests
+import httpx
 
 try:
     import ujson as json
@@ -6,8 +6,6 @@ except ModuleNotFoundError:
     import json
 
 from nonebot import logger
-
-
 
 MirlKoi_list = {}
 MirlKoi_list["iw233"] = []
@@ -60,7 +58,7 @@ def MirlKoi(N:int = 1, Tag:str = "", R18:int = 0):
 
     if len(MirlKoi_list[Tag]) < N:
         logger.info(f"正在从 MirlKoi 获取图片，来源：{Tag}")
-        resp = requests.get(f"https://dev.iw233.cn/api.php?sort={Tag}&type=json&num=100")
+        resp = httpx.get(f"https://dev.iw233.cn/api.php?sort={Tag}&type=json&num=100")
         if resp.status_code == 200:
             resp = resp.text
             resp = ''.join(x for x in resp if x.isprintable())
