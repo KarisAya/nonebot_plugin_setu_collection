@@ -41,7 +41,7 @@ def is_MirlKoi_tag(Tag:str = ""):
     else:
         return None
 
-def MirlKoi(N:int = 1, Tag:str = "", R18:int = 0):
+async def MirlKoi(N:int = 1, Tag:str = "", R18:int = 0):
     Tag = Tag if Tag else "iw233"
     tag = tag_dict[Tag]
     msg = ""
@@ -58,7 +58,8 @@ def MirlKoi(N:int = 1, Tag:str = "", R18:int = 0):
 
     if len(MirlKoi_list[Tag]) < N:
         logger.info(f"正在从 MirlKoi 获取图片，来源：{Tag}")
-        resp = httpx.get(f"https://dev.iw233.cn/api.php?sort={Tag}&type=json&num=100")
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(f"https://dev.iw233.cn/api.php?sort={Tag}&type=json&num=100")
         if resp.status_code == 200:
             resp = resp.text
             resp = ''.join(x for x in resp if x.isprintable())

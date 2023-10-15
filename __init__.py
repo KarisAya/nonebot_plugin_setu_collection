@@ -16,9 +16,9 @@ import httpx
 import asyncio
 import unicodedata
 
-from .utils import customer_api,save
-
-from .utils import MirlKoi,Anosu,Lolicon,is_MirlKoi_tag
+from .api.MirlKoi import MirlKoi,is_MirlKoi_tag
+from .api.Anosu import Anosu
+from .api.Lolicon import Lolicon
 
 Bot_NICKNAME = list(nonebot.get_driver().config.nickname)
 
@@ -75,41 +75,26 @@ async def _(bot: Bot, event: MessageEvent):
         if R18:
             await setu.finish("涩涩是禁止事项！！")
         else:
-            if not Tag:
-                msg,url_list = MirlKoi(N,Tag,R18)
+            if not Tag or is_MirlKoi_tag(Tag):
                 api = "MirlKoi API"
+                setufunc = MirlKoi
             else:
-                tag = is_MirlKoi_tag(Tag)
-                if tag:
-                    msg,url_list = MirlKoi(N,tag,R18)
-                    api = "MirlKoi API"
-                else:
-                    msg,url_list = Anosu(N,Tag,R18)
-                    api = "Jitsu"
+                api = "Jitsu"
+                setufunc = Anosu
     else:
         api = customer_api.get(str(event.user_id),None)
         if api == "Lolicon API":
-            msg,url_list = Lolicon(N,Tag,R18)
+            setufunc = Lolicon
         else:
-            if R18:
-                msg,url_list = Anosu(N,Tag,R18)
-                api = "Jitsu"
+            if not R18 or not Tag or is_MirlKoi_tag(Tag):
+                api = "MirlKoi API"
+                setufunc = MirlKoi
             else:
-                if not Tag:
-                    msg,url_list = MirlKoi(N,Tag,R18)
-                    api = "MirlKoi API"
-                else:
-                    tag = is_MirlKoi_tag(Tag)
-                    if tag:
-                        msg,url_list = MirlKoi(N,tag,R18)
-                        api = "MirlKoi API"
-                    else:
-                        msg,url_list = Anosu(N,Tag,R18)
-                        api = "Jitsu"
+                api = "Jitsu"
+                setufunc = Anosu
 
-    msg = msg.replace("Bot_NICKNAME",Bot_NICKNAME)
-
-    msg += f"\n图片取自：{api}\n"
+    msg,url_list = await setufunc(N,Tag,R18)
+    msg = msg.replace("Bot_NICKNAME",Bot_NICKNAME) + f"\n图片取自：{api}\n"
 
     if len(url_list) >3:
         msg = msg[:-1]
@@ -124,33 +109,49 @@ async def _(bot: Bot, event: MessageEvent):
 
     image_list = [image for image in image_list if image]
 
-    if image_list:
-        N = len(image_list)
-        if N <= 3:
-            image = Message()
-            for i in range(N):
-                image +=  MessageSegment.image(file = image_list[i])
-            await setu.finish(Message(msg) + image, at_sender = True)
-        else:
-            msg_list =[]
-            for i in range(N):
-                msg_list.append(
-                    {
-                        "type": "node",
-                        "data": {
-                            "name": Bot_NICKNAME,
-                            "uin": event.self_id,
-                            "content": MessageSegment.image(file = image_list[i])
-                            }
-                        }
-                    )
-            if isinstance(event,GroupMessageEvent):
-                await bot.send_group_forward_msg(group_id = event.group_id, messages = msg_list)
-            else:
-                await bot.send_private_forward_msg(user_id = event.user_id, messages = msg_list)
+    if not image_list:
+        await setu.finish(msg + "获取图片失败。", at_sender = True)
+    N = len(image_list)
+    if N <= 3:
+        image = Message()
+        for i in range(N):
+            image +=  MessageSegment.image(file = image_list[i])
+        await setu.finish(Message(msg) + image, at_sender = True)
     else:
-        msg += "获取图片失败。"
-        await setu.finish(msg, at_sender = True)
+        msg_list =[]
+        for i in range(N):
+            msg_list.append(
+                {
+                    "type": "node",
+                    "data": {
+                        "name": Bot_NICKNAME,
+                        "uin": event.self_id,
+                        "content": MessageSegment.image(file = image_list[i])
+                        }
+                    }
+                )
+        if isinstance(event,GroupMessageEvent):
+            await bot.send_group_forward_msg(group_id = event.group_id, messages = msg_list)
+        else:
+            await bot.send_private_forward_msg(user_id = event.user_id, messages = msg_list)
+
+import os
+from pathlib import Path
+
+try:
+    import ujson as json
+except ModuleNotFoundError:
+    import json
+
+path = Path() / "data" / "setu"
+file = path / "customer_api.json"
+if file.exists():
+    with open(file, "r", encoding="utf8") as f:
+        customer_api = json.load(f)
+else:
+    customer_api = {}
+    if not path.exists():
+        os.makedirs(path)
 
 set_api = on_command("设置api", aliases = {"切换api","指定api"}, priority = 50, block = True)
 
@@ -162,9 +163,12 @@ set_api = on_command("设置api", aliases = {"切换api","指定api"}, priority 
         "2.Lolicon API"
         )
     )
-async def _(bot: Bot, event: PrivateMessageEvent, api: Message = Arg()):
+async def _(event: PrivateMessageEvent, api: Message = Arg()):
     api = str(api)
     user_id = str(event.user_id)
+    def save():
+        with open(file, "w", encoding="utf8") as f:
+            json.dump(customer_api, f, ensure_ascii=False, indent=4)
     if api == "1":
         customer_api[user_id] = "Jitsu/MirlKoi API"
         save()
