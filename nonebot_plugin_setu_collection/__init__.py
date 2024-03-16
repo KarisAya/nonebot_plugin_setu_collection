@@ -70,7 +70,7 @@ async def _(bot: Bot, event: MessageEvent):
         R18 = 1
     else:
         R18 = 0
-
+    tag = Tag
     if isinstance(event, GroupMessageEvent):
         if R18:
             await setu.finish("涩涩是禁止事项！！")
