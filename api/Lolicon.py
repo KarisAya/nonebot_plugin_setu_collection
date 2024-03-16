@@ -1,13 +1,10 @@
 import httpx
-
-try:
-    import ujson as json
-except ModuleNotFoundError:
-    import json
+import json
 
 from nonebot import logger
 
-async def Lolicon(N:int = 1, Tag:str = "", R18:int = 0):
+
+async def Lolicon(N: int = 1, Tag: str = "", R18: int = 0):
     if Tag:
         tag_list = Tag.strip().split()
         tag = "&tag="
@@ -35,7 +32,7 @@ async def Lolicon(N:int = 1, Tag:str = "", R18:int = 0):
         resp = await client.get(f"https://api.lolicon.app/setu/v2?num={N}&r18={R18}{tag}&excludeAI=1")
     if resp.status_code == 200:
         resp = resp.text
-        resp = ''.join(x for x in resp if x.isprintable())
+        resp = "".join(x for x in resp if x.isprintable())
         Lolicon_list = json.loads(resp)["data"]
         image_list = []
         if Lolicon_list:
