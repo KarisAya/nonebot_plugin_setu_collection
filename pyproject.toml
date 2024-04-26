@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "nonebot-plugin-setu-collection"
+name = "nonebot_plugin_setu_collection"
 version = "0.2.0"
 description = ""
 authors = ["KarisAya <1048827424@qq.com>"]
