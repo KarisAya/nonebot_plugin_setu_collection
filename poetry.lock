@@ -44,13 +44,13 @@ files = [
 
 [[package]]
 name = "clovers"
-version = "0.1.5"
+version = "0.1.7"
 description = ""
 optional = false
-python-versions = "<4.0,>=3.10"
+python-versions = "<4.0,>=3.12"
 files = [
-    {file = "clovers-0.1.5-py3-none-any.whl", hash = "sha256:59f24e620a394bc596fcd56aa107129e4e85ab08db605bfc6157d8ddee814732"},
-    {file = "clovers-0.1.5.tar.gz", hash = "sha256:ae39370d92c090acdaf12c14649178b09abf2fdd46c7372af2fa69d0d37e3938"},
+    {file = "clovers-0.1.7-py3-none-any.whl", hash = "sha256:d11f4ebe7f487ada936fd64a54e258ab1355f7fe0c6b48f238f2f1eb494f4e44"},
+    {file = "clovers-0.1.7.tar.gz", hash = "sha256:90a11aa237856348557c233eeb6ee91a9c7ab3f1eccedd3b8b2f47231b3cb220"},
 ]
 
 [package.dependencies]
@@ -652,4 +652,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "fbcabc65d22c6aa5510bb3ea9e37c321ce704b739fcc61526165f320c2def927"
+content-hash = "6120cd42bcf6de8e21b87571e23d47eec80fe07e758054103a7dc72645230505"

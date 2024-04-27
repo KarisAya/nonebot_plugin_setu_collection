@@ -1,12 +1,13 @@
 [tool.poetry]
 name = "nonebot_plugin_setu_collection"
-version = "0.2.0"
+version = "0.2.1"
 description = ""
 authors = ["KarisAya <1048827424@qq.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+clovers = "^0.1.7"
 nonebot-plugin-clovers = "^0.1.4"
 clovers-setu-collection = "^0.1.0"
 
