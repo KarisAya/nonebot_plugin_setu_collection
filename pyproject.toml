@@ -8,9 +8,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 clovers = "^0.1.7"
-nonebot-plugin-clovers = "^0.1.4"
 clovers-setu-collection = "^0.1.0"
-
+nonebot-plugin-clovers = {extras = ["nonebot"], version = "^0.1.4"}
 
 [build-system]
 requires = ["poetry-core"]
