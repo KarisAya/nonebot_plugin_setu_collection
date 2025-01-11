@@ -7,9 +7,9 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-clovers = "^0.1.7"
-clovers-setu-collection = "^0.1.0"
-nonebot-plugin-clovers = {extras = ["nonebot"], version = "^0.1.4"}
+clovers = "^0.3.0"
+nonebot-plugin-clovers = {extras = ["onebot"], version = "^0.2.0"}
+clovers-setu-collection = "^0.2.0"
 
 [build-system]
 requires = ["poetry-core"]
