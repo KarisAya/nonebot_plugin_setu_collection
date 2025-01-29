@@ -1,16 +1,17 @@
-[tool.poetry]
-name = "nonebot_plugin_setu_collection"
-version = "0.3.0"
+[project]
+name = "nonebot-plugin-setu-collection"
+version = "0.3.1"
 description = ""
-authors = ["KarisAya <1048827424@qq.com>"]
+authors = [{ name = "KarisAya", email = "1048827424@qq.com" }]
 readme = "README.md"
+requires-python = ">=3.12,<4.0.0"
+dependencies = [
+    "clovers (>=0.3.4,<0.4.0)",
+    "nonebot-plugin-clovers[onebot] (>=0.2.3,<0.3.0)",
+    "clovers-setu-collection (>=0.2.0,<0.3.0)",
+]
 
-[tool.poetry.dependencies]
-python = "^3.12"
-clovers = "^0.3.0"
-nonebot-plugin-clovers = {extras = ["onebot"], version = "^0.2.0"}
-clovers-setu-collection = "^0.2.0"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
