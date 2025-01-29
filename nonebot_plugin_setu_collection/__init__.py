@@ -16,7 +16,6 @@ from nonebot_plugin_clovers.adapters.onebot.v11 import __adapter__ as adapter
 
 clovers_config["clovers_setu_collection"] = {k[31:]: v for k, v in get_plugin_config(Config).model_dump().items()}
 
-from nonebot_plugin_clovers.adapters.onebot.v11 import __adapter__ as adapter
 from clovers_setu_collection import __plugin__ as setu_collection
 from nonebot.plugin import PluginMetadata
 
