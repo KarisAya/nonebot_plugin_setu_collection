@@ -1,8 +1,11 @@
-from nonebot import get_plugin_config
+from nonebot import require, get_plugin_config
 from nonebot.plugin import PluginMetadata
-from nonebot_plugin_clovers import client as nbcc, __plugin_meta__ as nbcc_meta
 from clovers.config import Config as CloversConfig
 from .config import Config
+
+require("nonebot_plugin_clovers")
+from nonebot_plugin_clovers import client as nbcc, __plugin_meta__ as nbcc_meta
+
 
 __plugin_meta__ = PluginMetadata(
     name="来张色图",
