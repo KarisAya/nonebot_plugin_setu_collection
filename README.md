@@ -14,9 +14,9 @@
 
 [![python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/)
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
-[![license](https://img.shields.io/github/license/KarisAya/nonebot_plugin_groupmate_waifu.svg)](./LICENSE)
-[![pypi](https://img.shields.io/pypi/v/nonebot_plugin_groupmate_waifu.svg)](https://pypi.python.org/pypi/nonebot_plugin_groupmate_waifu)
-[![pypi download](https://img.shields.io/pypi/dm/nonebot_plugin_groupmate_waifu)](https://pypi.python.org/pypi/nonebot_plugin_groupmate_waifu)
+[![license](https://img.shields.io/github/license/KarisAya/nonebot_plugin_setu_collection.svg)](./LICENSE)
+[![pypi](https://img.shields.io/pypi/v/nonebot_plugin_setu_collection.svg)](https://pypi.python.org/pypi/nonebot_plugin_setu_collection)
+[![pypi download](https://img.shields.io/pypi/dm/nonebot_plugin_setu_collection)](https://pypi.python.org/pypi/nonebot_plugin_setu_collection)
 <br />
 
 [![机器人 bug 研究中心](https://img.shields.io/badge/QQ%E7%BE%A4-744751179-maroon?)](https://qm.qq.com/q/3vpD9Ypb0c)
