@@ -4,7 +4,7 @@ from clovers.config import Config as CloversConfig
 from .config import Config
 
 require("nonebot_plugin_clovers")
-from nonebot_plugin_clovers import client as nbcc, __plugin_meta__ as nbcc_meta
+from nonebot_plugin_clovers import client as nbcc, __plugin_meta__ as nbcc_plugin_meta
 
 
 __plugin_meta__ = PluginMetadata(
@@ -14,7 +14,7 @@ __plugin_meta__ = PluginMetadata(
     type="application",
     config=Config,
     homepage="https://github.com/KarisAya/nonebot_plugin_setu_collection",
-    supported_adapters=nbcc_meta.supported_adapters,
+    supported_adapters=nbcc_plugin_meta.supported_adapters,
 )
 
 import_name = "clovers_setu_collection"
