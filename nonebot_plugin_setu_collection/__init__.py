@@ -19,6 +19,6 @@ __plugin_meta__ = PluginMetadata(
 
 import_name = "clovers_setu_collection"
 
-CloversConfig.environ()[import_name] = {k.lower().lstrip("setu_collection"): v for k, v in get_plugin_config(Config).model_dump().items()}
+CloversConfig.environ()[import_name] = {k.lower().lstrip("setu_collection_"): v for k, v in get_plugin_config(Config).model_dump().items()}
 
 nbcc.load_plugin(import_name)
