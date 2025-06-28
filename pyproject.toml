@@ -1,6 +1,6 @@
 [project]
 name = "nonebot-plugin-setu-collection"
-version = "0.4.0r2"
+version = "0.4.0r3"
 description = ""
 authors = [{ name = "KarisAya", email = "karisaya@foxmail.com" }]
 readme = "README.md"
